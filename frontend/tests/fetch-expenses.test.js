@@ -9,7 +9,7 @@ describe("API client", () => {
   });
 
   it("haalt gebruikers op met GET", async () => {
-    const fakeUsers = [{ id: 1, title: "lunch", amount: 20 }];
+    const fakeExpenses = [{ id: 1, title: "Lunch", amount: 20 }];
     fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => fakeExpenses,
