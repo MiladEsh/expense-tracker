@@ -1,17 +1,10 @@
-import { getExpenses } from "./format-expenses.js";
+import { getExpenses } from './format-expenses.js';
+import { showError } from '../ui-helpers.js';
 
 function showLoading(element) {
   element.innerHTML = '';
   const p = document.createElement('p');
   p.textContent = 'Loading...';
-  element.appendChild(p);
-}
-
-function showError(element, error) {
-  element.innerHTML = '';
-  const p = document.createElement('p');
-  p.textContent = error.message;
-  p.style.color = 'red';
   element.appendChild(p);
 }
 
@@ -47,4 +40,4 @@ export async function showExpenses(element) {
   }
 }
 
-export const __only_for_test = { showLoading, showError, showEmptyState, renderExpenses };
+export const __only_for_test = { showLoading, showEmptyState, renderExpenses };
