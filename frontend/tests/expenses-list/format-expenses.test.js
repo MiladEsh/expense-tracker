@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-vi.mock("../src/expenses-list/fetch-expenses", () => ({
+vi.mock("../../src/expenses-list/fetch-expenses.js", () => ({
   getExpensesData: vi.fn(),
 }));
 
-import { getExpenses, __only_for_test as internal } from "../src/expenses-list/format-expenses.js";
-import { getExpensesData } from "../src/expenses-list/fetch-expenses.js";
+import { getExpenses, __only_for_test as internal } from "../../src/expenses-list/format-expenses.js";
+import { getExpensesData } from "../../src/expenses-list/fetch-expenses.js";
 
 const { formatExpenses } = internal;
 

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getExpensesData, createExpense } from "../src/expenses-list/fetch-expenses.js";
+import { getExpensesData, createExpense } from "../../src/expenses-list/fetch-expenses.js";
 
 global.fetch = vi.fn(); // mock fetch
 

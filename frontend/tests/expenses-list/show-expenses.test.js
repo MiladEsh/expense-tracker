@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('../src/expenses-list/format-expenses.js', () => ({
+vi.mock('../../src/expenses-list/format-expenses.js', () => ({
   getExpenses: vi.fn(),
 }));
 
-import { showExpenses, __only_for_test as ui } from '../src/expenses-list/show-expenses.js';
-import { getExpenses } from '../src/expenses-list/format-expenses.js';
+import { showExpenses, __only_for_test as ui } from '../../src/expenses-list/show-expenses.js';
+import { getExpenses } from '../../src/expenses-list/format-expenses.js';
 
 describe('UI helper functions', () => {
   let container;
