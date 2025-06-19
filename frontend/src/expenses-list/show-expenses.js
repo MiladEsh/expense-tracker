@@ -1,4 +1,5 @@
 import { getExpenses } from './format-expenses.js';
+import { appendDeleteButton } from './delete-button.js';
 import { showError } from '../ui-helpers.js';
 
 function showLoading(element) {
@@ -25,6 +26,7 @@ function renderExpenses(element, expenses) {
   expenses.forEach(expense => {
     const li = document.createElement('li');
     li.textContent = JSON.stringify(expense);
+    appendDeleteButton(li, element, expense);
     ul.appendChild(li);
   });
   element.appendChild(ul);

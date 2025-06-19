@@ -1,77 +1,87 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { showExpenses, __only_for_test as ui } from '../../src/expenses-list/show-expenses.js';
+import { getExpenses } from '../../src/expenses-list/format-expenses.js';
 
 vi.mock('../../src/expenses-list/format-expenses.js', () => ({
   getExpenses: vi.fn(),
 }));
 
-import { __only_for_test, showExpenses } from '../../src/expenses-list/show-expenses.js';
-import { getExpenses } from '../../src/expenses-list/format-expenses.js';
-
 describe('DOM testing', () => {
+  let el;
+
   beforeEach(() => {
-    document.body.innerHTML = '<div id="test-div"></div>';
-    getExpenses.mockReset();
+    el = document.createElement('div');
+    document.body.innerHTML = '';
   });
 
   it('showLoading', () => {
-    const el = document.querySelector('#test-div');
-    __only_for_test.showLoading(el);
-    expect(el.innerHTML).toStrictEqual('<p>Loading...</p>');
+    ui.showLoading(el);
+    const p = el.querySelector('p');
+    expect(p).toBeTruthy();
+    expect(p.textContent).toBe('Loading...');
   });
 
   it('showEmptyState', () => {
-    const el = document.querySelector('#test-div');
-    __only_for_test.showEmptyState(el);
-    expect(el.innerHTML).toStrictEqual('<p>No expenses found.</p>');
+    ui.showEmptyState(el);
+    const p = el.querySelector('p');
+    expect(p).toBeTruthy();
+    expect(p.textContent).toBe('No expenses found.');
   });
 
   it('renderExpenses ingevuld', () => {
-    const el = document.querySelector('#test-div');
     const data = [
       { id: 1, prop: 'test1' },
-      { id: 2, prop: 'test2' }
+      { id: 2, prop: 'test2' },
     ];
-    __only_for_test.renderExpenses(el, data);
-    expect(el.innerHTML).toStrictEqual(
-      '<ul><li>{"id":1,"prop":"test1"}</li><li>{"id":2,"prop":"test2"}</li></ul>'
-    );
+
+    ui.renderExpenses(el, data);
+    const items = el.querySelectorAll('ul li');
+    expect(items.length).toBe(2);
+    expect(items[0].textContent).toContain('"prop":"test1"');
+    expect(items[1].textContent).toContain('"prop":"test2"');
+
+    const buttons = el.querySelectorAll('ul li button.confirm-delete');
+    expect(buttons.length).toBe(2);
   });
 
   it('renderExpenses niet ingevuld', () => {
-    const el = document.querySelector('#test-div');
-    __only_for_test.renderExpenses(el, []);
-    expect(el.innerHTML).toStrictEqual('<p>No expenses found.</p>');
+    ui.renderExpenses(el, []);
+    const p = el.querySelector('p');
+    expect(p).toBeTruthy();
+    expect(p.textContent).toBe('No expenses found.');
   });
 
   it('showExpenses ingevuld', async () => {
-    const el = document.querySelector('#test-div');
     const rep = {
       success: true,
       expenses: [
         { id: 1, prop: 'test1' },
-        { id: 2, prop: 'test2' }
-      ]
+        { id: 2, prop: 'test2' },
+      ],
     };
+
     getExpenses.mockResolvedValueOnce(rep);
     await showExpenses(el);
-    expect(el.innerHTML).toStrictEqual(
-      '<ul><li>{"id":1,"prop":"test1"}</li><li>{"id":2,"prop":"test2"}</li></ul>'
-    );
+
+    const items = el.querySelectorAll('ul li');
+    expect(items.length).toBe(2);
+    expect(items[0].textContent).toContain('"prop":"test1"');
+    expect(items[1].textContent).toContain('"prop":"test2"');
   });
 
   it('showExpenses niet ingevuld', async () => {
-    const el = document.querySelector('#test-div');
-    const rep = { success: true, expenses: [] };
-    getExpenses.mockResolvedValueOnce(rep);
+    getExpenses.mockResolvedValueOnce({ success: true, expenses: [] });
     await showExpenses(el);
-    expect(el.innerHTML).toStrictEqual('<p>No expenses found.</p>');
+    const p = el.querySelector('p');
+    expect(p).toBeTruthy();
+    expect(p.textContent).toBe('No expenses found.');
   });
 
   it('showExpenses rejected api call', async () => {
-    const el = document.querySelector('#test-div');
-    const rep = { success: false, error: new Error('404') };
-    getExpenses.mockResolvedValueOnce(rep);
+    getExpenses.mockResolvedValueOnce({ success: false, error: new Error('fout') });
     await showExpenses(el);
-    expect(el.innerHTML).toStrictEqual('<p style="color: red;">404</p>');
+    const p = el.querySelector('p');
+    expect(p.textContent).toBe('fout');
+    expect(p.style.color).toBe('red');
   });
 });

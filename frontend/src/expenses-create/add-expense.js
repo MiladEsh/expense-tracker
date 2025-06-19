@@ -1,4 +1,4 @@
-import { createExpense } from './post-expense';
+import { createExpense } from './post-expense.js';
 
 
 export function validateFormData(data) {

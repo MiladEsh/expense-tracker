@@ -1,5 +1,5 @@
 export async function createExpense(data) {
-  const response = await fetch('/expenses', {
+  const response = await fetch('http://localhost:3000/expenses', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -8,8 +8,8 @@ export async function createExpense(data) {
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    throw new Error(response.status.toString());
   }
 
-  return await response.json();
+  return response.json();
 }
