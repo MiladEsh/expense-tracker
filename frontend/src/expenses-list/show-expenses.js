@@ -25,7 +25,7 @@ function renderExpenses(element, expenses) {
   const ul = document.createElement('ul');
   expenses.forEach(expense => {
     const li = document.createElement('li');
-    li.textContent = JSON.stringify(expense);
+li.textContent = `${expense.description} - €${expense.amount} op ${expense.displayDate}`;
     appendDeleteButton(li, element, expense);
     ul.appendChild(li);
   });
