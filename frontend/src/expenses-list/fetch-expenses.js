@@ -1,5 +1,5 @@
 export async function getExpensesData() {
-  const response = await fetch("http://localhost:3000/expenses");
+  const response = await fetch("http://localhost:5051/api/expenses");
 
   if (response.ok) {
     return response.json();
@@ -9,7 +9,7 @@ export async function getExpensesData() {
 }
 
 export async function createExpense(expense) {
-  const response = await fetch("http://localhost:3000/expenses", {
+  const response = await fetch("http://localhost:5051/api/expenses", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(expense),
